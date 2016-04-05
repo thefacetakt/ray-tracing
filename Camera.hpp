@@ -3,7 +3,7 @@
 
 #include "Image.hpp"
 #include "figures/Figure.hpp"
-#include <vector>
+#include "containers/Container.hpp"
 
 using std::vector;
 
@@ -30,26 +30,16 @@ public:
     }
 };
 
-Image view(const Camera &camera, const vector<Figure *> &figures,
+Image view(const Camera &camera, const Container * const container,
     int height, int width) {
-    //TODO: changeit
-    srand(126);
-    Image::RGB colors[2];
-    colors[0] = Image::RGB(rand() % 255, rand() % 255, rand() % 255);
-    colors[1] = Image::RGB(rand() % 255, rand() % 255, rand() % 255);
     Image result(width, height);
 
     for (int y = -height / 2; y < height / 2; ++y) {
         for (int x = -width / 2; x < width / 2; ++x) {
             result(height / 2 + y, width / 2 + x) = Image::RGB(0, 0, 0);
-            int i = 0;
-            for (const auto &figure: figures) {
-                if (!(figure->rayIntersection(Ray(camera.getPosition(),
-                                            camera.getPixel(x, y))) == NONE)) {
-                    result(height / 2 + y, width / 2 + x) = colors[i];
-                }
-                ++i;
-            }
+            result(height / 2 + y, width / 2 + x)
+                = container->rayIntersection(Ray(camera.getPosition(),
+                                                camera.getPixel(x, y))).second;
         }
     }
     return result;

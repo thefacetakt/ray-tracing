@@ -2,16 +2,17 @@
 #include "figures/Triangle.hpp"
 #include "Camera.hpp"
 #include "STLReader.hpp"
+#include "containers/Container.hpp"
+#include "containers/StupidContainer.hpp"
 
 int main() {
     Camera camera(Vector(0, 0, 0),
                   Vector(0, 0, 1),
                   Vector(1, 0, 0));
-    vector <Figure *> figures = readFile("scene.stl");
-    Image image = view(camera, figures, 1080, 1920);
+    Container *container = dynamic_cast<Container *>(
+        new StupidContainer("scene.stl"));
+    Image image = view(camera, container, 1080, 1920);
     image.write("triangle.png");
-    for (auto &figure: figures) {
-        delete figure;
-    }
+    delete container;
     return 0;
 }

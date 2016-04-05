@@ -8,7 +8,7 @@
 
 const char *VERTEX = "vertex";
 const char *BAD_FORMAT = "bad stl file";
-vector <Figure *> readFile(const char *filename) {
+vector <Figure *> readSTL(const char *filename) {
     vector <Figure *> result;
     FILE *in = fopen(filename, "r");
     static const int MAX_LINE_LENGTH = 80;

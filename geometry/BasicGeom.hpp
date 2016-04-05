@@ -16,6 +16,8 @@ namespace BasicGeom {
 
         bool operator==(const Vector &a) const;
 
+        bool operator!=(const Vector &a) const;
+
         Vector operator-(const Vector &a) const;
 
         Vector operator+(const Vector &a) const;
@@ -45,6 +47,10 @@ namespace BasicGeom {
 
     bool Vector::operator==(const Vector &a) const {
         return eq(x, a.x) && eq(y, a.y) && eq(z, a.z);
+    }
+
+    bool Vector::operator!=(const Vector &a) const {
+        return !(operator==(a));
     }
 
     Vector Vector::operator-(const Vector &a) const {
@@ -113,6 +119,7 @@ namespace BasicGeom {
                     direction = v2 - v1;
                 break;
             }
+            direction = direction / direction.len();
         }
     };
 
