@@ -1,3 +1,3 @@
-Ну, пока так
+# Ну, пока так
 
-(./triangle.png "Logo Title Text 1")
+![](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/triangle.png)
