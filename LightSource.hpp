@@ -7,11 +7,11 @@ using namespace BasicGeom;
 
 struct LightSource {
     Vector position;
-    float energy;
+    myFloat energy;
 
-    float getIncrease(const Vector &point, const Vector &normal) const {
+    myFloat getIncrease(const Vector &point, const Vector &normal) const {
         return energy / pow((position - point).len(), 3.)
-               * (normal * (position - point));
+               * (normal * (position - point)) / (normal.len());
     }
 };
 

@@ -17,6 +17,9 @@ class Triangle: public FlatFigure {
                     (V[(i + 1) % SIDES] - V[i]) % (v - V[i]),
                     (V[(i + 1) % SIDES] - V[i])
                     % (V[(i + 2) % SIDES] - V[i]))) {
+                auto x1 = (V[(i + 1) % SIDES] - V[i]) % (v - V[i]);
+                auto x2 = (V[(i + 1) % SIDES] - V[i]) % (V[(i + 2) % SIDES] - V[i]);
+                int z = 1 + 2;
                 return false;
             }
         }

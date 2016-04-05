@@ -43,6 +43,7 @@ Image view(const Camera &camera, const Scene *scene,
             result(height / 2 + y, width / 2 + x)
                 = scene->color(Ray(camera.getPosition(),
                                    camera.getPixel(x, y)));
+            auto tmp = result(height / 2 + y, width / 2 + x);
         }
     }
     return result;

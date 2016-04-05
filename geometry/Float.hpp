@@ -3,30 +3,32 @@
 
 #include <cmath>
 
-namespace Float {
-    const float EPS = 1e-3;
+typedef double myFloat;
 
-    inline bool eq(float a, float b) {
+namespace Float {
+    const myFloat EPS = 1e-6;
+
+    inline bool eq(myFloat a, myFloat b) {
         return fabsl(a - b) < EPS;
     }
 
-    inline bool less(float a, float b) {
+    inline bool less(myFloat a, myFloat b) {
         return a + EPS < b;
     }
 
-    inline bool lessOrEqual(float a, float b) {
+    inline bool lessOrEqual(myFloat a, myFloat b) {
         return a < b + EPS;
     }
 
-    inline bool greater(float a, float b) {
+    inline bool greater(myFloat a, myFloat b) {
         return less(b, a);
     }
 
-    inline bool greaterOrEqual(float a, float b) {
+    inline bool greaterOrEqual(myFloat a, myFloat b) {
         return lessOrEqual(b, a);
     }
 
-    float sq(float a) {
+    myFloat sq(myFloat a) {
         return a * a;
     }
 };

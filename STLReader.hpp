@@ -21,7 +21,7 @@ vector <Figure *> readSTL(const char *filename) {
             Triangle* current = new Triangle();
             for (int i = 0; i < Triangle::size(); ++i) {
                 double ix, iy, iz;
-                if (fscanf(in, "%f %f %f", &(*current)[i].x,
+                if (fscanf(in, "%lf %lf %lf", &(*current)[i].x,
                            &(*current)[i].y,
                            &(*current)[i].z) != Triangle::size()) {
                     throw BAD_FORMAT;

@@ -37,16 +37,17 @@ public:
                     }
                     float currentIncrease = lamp.getIncrease(camViewPoint.first,
                                                              normal);
-                    if (greater(currentIncrease, 0.)) {
+                    if (greaterOrEqual(currentIncrease, 0.)) {
                         increase += currentIncrease;
+                    } else {
+
                     }
                 }
             }
             return camViewPoint.second->properties.color * increase;
         }
-        return Image::RGB();
+        return Image::RGB(0, 0, 0);
     }
-
     ~Scene() {
         delete container;
     }
