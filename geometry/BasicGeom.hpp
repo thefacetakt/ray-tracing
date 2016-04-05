@@ -52,7 +52,7 @@ namespace BasicGeom {
     }
 
     Vector Vector::operator+(const Vector &a) const {
-        return Vector(x - a.x, y - a.y, z - a.z);
+        return Vector(x + a.x, y + a.y, z + a.z);
     }
 
     float Vector::operator*(const Vector &a) const {
@@ -116,13 +116,6 @@ namespace BasicGeom {
         }
     };
 
-    float compareWithZeroAndReturn(float x, float result) {
-        if (eq(x, 0.) {
-            return 0.;
-        }
-        return result;
-    }
-
     struct Plane {
         Vector n;
         Vector start;
@@ -132,20 +125,8 @@ namespace BasicGeom {
             n = n / n.len();
         }
 
-        Vector getPoint() const {
-            int notNullCoeffs = !eq(n.a, 0.) + !eq(n.b, 0.) + !eq(n.c, 0.);
-            float d_ = d();
-            return Vector(compareWithZeroAndReturn(n.a,
-                                                   -d_ / (notNullCoeffs * n.a)),
-                          compareWithZeroAndReturn(n.b,
-                                                   -d_ / (notNullCoeffs * n.b)),
-                          compareWithZeroAndReturn(n.c,
-                                                   -d_ / (notNullCoeffs * n.c))
-                          );
-        }
-
         float d() const {
-            return start * n;
+            return -start * n;
         }
     };
 
@@ -169,6 +150,18 @@ namespace BasicGeom {
         float d2 = det(x, dVector, z);
         float d3 = det(x, y, dVector);
         return Vector(d1 / d, d2 / d, d3 / d);
+    }
+
+    Vector intersect(const Ray &ray, const Plane &plane) {
+        float denominator = ray.direction * plane.n;
+        if (eq(denominator, 0.)) {
+            return NONE;
+        }
+        float t = -(ray.start * plane.n + plane.d()) / denominator;
+        if (greaterOrEqual(t, 0.)) {
+            return ray.start + ray.direction * t;;
+        }
+        return NONE;
     }
 };
 

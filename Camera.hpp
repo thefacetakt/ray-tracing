@@ -2,7 +2,7 @@
 #define RT_CAMERA
 
 #include "Image.hpp"
-#include "Figure.hpp"
+#include "figures/Figure.hpp"
 #include <vector>
 
 using std::vector;

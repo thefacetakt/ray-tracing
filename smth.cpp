@@ -1,5 +1,5 @@
 #include "Image.hpp"
-#include "Triangle.hpp"
+#include "figures/Triangle.hpp"
 #include "Camera.hpp"
 
 #ifdef TEST_PNG
@@ -24,9 +24,9 @@ int main() {
                   Vector(0, 0, 1),
                   Vector(1, 0, 0));
     Figure* figure = dynamic_cast<Figure*>(
-        new Triangle(Vector(-100, -100, 15),
-                     Vector(-100, 100, 10),
-                     Vector(100, 100, 0.5)));
+        new Triangle(Vector(-100, -100, 2),
+                     Vector(-100, 100, 1),
+                     Vector(100, 100, 1)));
     Image image = view(camera, {figure}, 1080, 1920);
     delete figure;
     image.write("triangle.png");
