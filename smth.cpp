@@ -9,10 +9,9 @@ int main() {
     Camera camera(Vector(0, 0, 0),
                   Vector(0, 0, 1),
                   Vector(1, 0, 0));
-    Container *container = dynamic_cast<Container *>(
-        new StupidContainer("scene.stl"));
-    Image image = view(camera, container, 1080, 1920);
+    Scene *scene = new Scene("lights.lamps", "scene.stl");
+    Image image = view(camera, scene, 1080, 1920);
     image.write("triangle.png");
-    delete container;
+    delete scene;
     return 0;
 }

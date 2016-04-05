@@ -4,7 +4,11 @@
 #include "Image.hpp"
 #include "figures/Figure.hpp"
 #include "containers/Container.hpp"
+#include "Scene.hpp"
+#include <algorithm>
 
+
+using std::max;
 using std::vector;
 
 class Camera {
@@ -30,16 +34,15 @@ public:
     }
 };
 
-Image view(const Camera &camera, const Container * const container,
+Image view(const Camera &camera, const Scene *scene,
     int height, int width) {
     Image result(width, height);
 
     for (int y = -height / 2; y < height / 2; ++y) {
         for (int x = -width / 2; x < width / 2; ++x) {
-            result(height / 2 + y, width / 2 + x) = Image::RGB(0, 0, 0);
             result(height / 2 + y, width / 2 + x)
-                = container->rayIntersection(Ray(camera.getPosition(),
-                                                camera.getPixel(x, y))).second;
+                = scene->color(Ray(camera.getPosition(),
+                                   camera.getPixel(x, y)));
         }
     }
     return result;

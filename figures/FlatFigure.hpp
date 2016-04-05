@@ -17,6 +17,10 @@ public:
 
     }
 
+    Plane getTangentPlane(const Vector &point) const {
+        return getContainingPlane();
+    }
+
     Vector rayIntersection(const Ray &r) const {
         Plane self = getContainingPlane();
         Vector candidate = intersect(r, self);

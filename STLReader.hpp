@@ -10,6 +10,9 @@ const char *VERTEX = "vertex";
 const char *BAD_FORMAT = "bad stl file";
 vector <Figure *> readSTL(const char *filename) {
     vector <Figure *> result;
+    if (filename == NULL) {
+        return result;
+    }
     FILE *in = fopen(filename, "r");
     static const int MAX_LINE_LENGTH = 80;
     char s[MAX_LINE_LENGTH];

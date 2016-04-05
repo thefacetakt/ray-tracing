@@ -4,7 +4,9 @@
 #include <vector>
 #include <cstddef>
 #include <png++/png.hpp>
+#include "geometry/Float.hpp"
 
+using namespace Float;
 using std::vector;
 
 class Image {
@@ -26,6 +28,22 @@ public:
 
         RGB() {
             R = G = B = 0;
+        }
+
+        unsigned char colorFromFloat(float x) const {
+            if (less(x, 0.)) {
+                return 0;
+            }
+            if (greater(x, 255)) {
+                return 255;
+            }
+            return (unsigned char)(x);
+        }
+
+        RGB operator*(float increase) const {
+            return RGB(colorFromFloat(R * increase),
+                       colorFromFloat(G * increase),
+                       colorFromFloat(B * increase));
         }
 
         RGB(unsigned char r, unsigned char g, unsigned char b)

@@ -4,7 +4,7 @@
 #include <cmath>
 
 namespace Float {
-    const float EPS = 1e-6;
+    const float EPS = 1e-3;
 
     inline bool eq(float a, float b) {
         return fabsl(a - b) < EPS;
@@ -24,6 +24,10 @@ namespace Float {
 
     inline bool greaterOrEqual(float a, float b) {
         return lessOrEqual(b, a);
+    }
+
+    float sq(float a) {
+        return a * a;
     }
 };
 

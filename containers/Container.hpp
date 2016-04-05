@@ -2,6 +2,7 @@
 #define RT_CONTAINER
 
 #include "../geometry/BasicGeom.hpp"
+#include "../Body.hpp"
 #include "../Image.hpp"
 #include <utility>
 
@@ -11,7 +12,7 @@ using namespace BasicGeom;
 
 class Container {
 public:
-    virtual pair<Vector, Image::RGB> rayIntersection(const Ray &) const = 0;
+    virtual pair<Vector, const Body *> rayIntersection(const Ray &) const = 0;
     virtual ~Container() {
     };
 };

@@ -28,9 +28,9 @@ public:
         }
     }
 
-    pair<Vector, Image::RGB> rayIntersection(const Ray &ray) const {
+    pair<Vector, const Body *> rayIntersection(const Ray &ray) const {
         double minimalTime = 1e18;
-        Image::RGB currentColor;
+        const Body *currentBody = NULL;
 
         for (auto const &body: bodies) {
             Vector candidate = body.figure->rayIntersection(ray);
@@ -40,15 +40,15 @@ public:
                 if (less(currentTime, minimalTime)) { //and time != 0, perhaps??
                     minimalTime = currentTime;
                     //TODO: it will not always be so;
-                    currentColor = body.properties.color;
+                    currentBody = &body;
                 }
             }
         }
         if (!eq(minimalTime, 1e18)) {
             return make_pair(ray.start +  ray.direction * minimalTime,
-                             currentColor);
+                             currentBody);
         }
-        return make_pair(NONE, Image::RGB(0, 0, 0));
+        return make_pair(NONE, currentBody);
     }
 
     virtual ~StupidContainer() {
