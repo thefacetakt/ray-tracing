@@ -1,7 +1,7 @@
 #ifndef RT_LIGHT_SOURCE
 #define RT_LIGHT_SOURCE
 
-#include "geometry/BasicGeom.hpp"
+#include "../geometry/BasicGeom.hpp"
 
 using namespace BasicGeom;
 

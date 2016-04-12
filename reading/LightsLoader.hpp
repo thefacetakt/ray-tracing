@@ -1,7 +1,7 @@
 #ifndef RT_LIGHT_LOADER
 #define RT_LIGHT_LOADER
 
-#include "LightSource.hpp"
+#include "../scene/LightSource.hpp"
 #include <vector>
 #include <cstdio>
 

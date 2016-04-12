@@ -2,8 +2,8 @@
 #define RT_CONTAINER
 
 #include "../geometry/BasicGeom.hpp"
-#include "../Body.hpp"
-#include "../Image.hpp"
+#include "../scene/Body.hpp"
+#include "../rendering/Image.hpp"
 #include <utility>
 
 using std::pair;

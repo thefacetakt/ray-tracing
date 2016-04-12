@@ -1,9 +1,9 @@
 #ifndef RT_STUPID_CONTAINER
 #define RT_STUPID_CONTAINER
 
-#include "../Body.hpp"
-#include "../Image.hpp"
-#include "../STLReader.hpp"
+#include "../scene/Body.hpp"
+#include "../rendering/Image.hpp"
+#include "../reading/STLReader.hpp"
 #include "Container.hpp"
 #include "../geometry/BasicGeom.hpp"
 #include "../figures/Sphere.hpp"

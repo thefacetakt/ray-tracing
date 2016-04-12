@@ -1,7 +1,8 @@
-#include "Image.hpp"
+#include "rendering/Image.hpp"
 #include "figures/Triangle.hpp"
-#include "Camera.hpp"
-#include "STLReader.hpp"
+#include "scene/Camera.hpp"
+#include "scene/Scene.hpp"
+#include "reading/STLReader.hpp"
 #include "containers/Container.hpp"
 #include "containers/StupidContainer.hpp"
 

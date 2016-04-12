@@ -1,9 +1,9 @@
 #ifndef RT_STL_READER
 #define RT_STL_READER
 
-#include "figures/Triangle.hpp"
-#include "figures/Figure.hpp"
-#include "figures/Sphere.hpp"
+#include "../figures/Triangle.hpp"
+#include "../figures/Figure.hpp"
+#include "../figures/Sphere.hpp"
 #include <cstdio>
 #include <cstring>
 

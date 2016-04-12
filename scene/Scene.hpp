@@ -2,10 +2,10 @@
 #define RT_SCENE
 
 #include "LightSource.hpp"
-#include "geometry/BasicGeom.hpp"
-#include "containers/Container.hpp"
-#include "containers/StupidContainer.hpp"
-#include "LightsLoader.hpp"
+#include "../geometry/BasicGeom.hpp"
+#include "../containers/Container.hpp"
+#include "../containers/StupidContainer.hpp"
+#include "../reading/LightsLoader.hpp"
 #include <vector>
 
 using std::vector;
