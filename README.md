@@ -16,26 +16,26 @@
 <table>
 <tr>
 <td>
-<img src="https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/back.png" />
+<img src="models/2/result/back.png" />
 </td>
 <td>
-<img src="https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/front.png" />
-</td>
-</tr>
-<tr>
-<td>
-<img src="https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/left.png" />
-</td>
-<td>
-<img src="https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/right.png" />
+<img src="models/2/result/front.png" />
 </td>
 </tr>
 <tr>
 <td>
-<img src="https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/up.png" />
+<img src="models/2/result/left.png" />
 </td>
 <td>
-<img src="https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/down.png" />
+<img src="models/2/result/right.png" />
+</td>
+</tr>
+<tr>
+<td>
+<img src="models/2/result/up.png" />
+</td>
+<td>
+<img src="models/2/result/down.png" />
 </td>
 </tr>
 </table>
