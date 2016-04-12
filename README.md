@@ -6,7 +6,7 @@
 <table>
 <tr>
 <td>
-![  ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/0/result/result.png)
+![ something ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/0/result/result.png)
 </td>
 <tr>
 <table>
@@ -16,26 +16,26 @@
 <table>
 <tr>
 <td>
-![  ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/back.png)
+![ back ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/back.png)
 </td>
 <td>
-![  ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/front.png)
-</td>
-</tr>
-<tr>
-<td>
-![  ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/left.png)
-</td>
-<td>
-![  ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/right.png)
+![ front ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/front.png)
 </td>
 </tr>
 <tr>
 <td>
-![  ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/up.png)
+![ left ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/left.png)
 </td>
 <td>
-![  ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/down.png)
+![ right ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/right.png)
+</td>
+</tr>
+<tr>
+<td>
+![ up ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/up.png)
+</td>
+<td>
+![ down ](https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/2/result/down.png)
 </td>
 </tr>
 </table>
