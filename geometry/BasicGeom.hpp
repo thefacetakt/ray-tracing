@@ -6,6 +6,7 @@
 using namespace Float;
 
 namespace BasicGeom {
+    const int DIMENSIONS = 3;
 
     struct Vector {
         myFloat x, y, z;
@@ -34,7 +35,11 @@ namespace BasicGeom {
 
         myFloat len() const;
 
+        myFloat len2() const;
+
         Vector normed() const;
+
+        myFloat operator[](size_t i) const;
     };
 
     const Vector NONE = Vector(1e18, 1e18, 1e18);
@@ -90,8 +95,22 @@ namespace BasicGeom {
         return sqrt(operator*(*this));
     }
 
+    myFloat Vector::len2() const {
+        return operator*(*this);
+    }
+
     Vector Vector::normed() const {
         return operator/(len());
+    }
+
+    myFloat Vector::operator[](size_t i) const {
+        if (i == 0) {
+            return x;
+        }
+        if (i == 1) {
+            return y;
+        }
+        return z;
     }
 
     bool collinearIfParralel(const Vector &a, const Vector &b) {
@@ -127,9 +146,14 @@ namespace BasicGeom {
         Vector n;
         Vector start;
 
-        Plane(Vector start, Vector a, Vector b) : start(start) {
+        Plane(const Vector &start, const Vector &a, const Vector &b)
+            : start(start) {
             n = a % b;
             n = n / n.len();
+        }
+
+        Plane(const Vector &start, const Vector &n) : start(start) {
+            this->n = n.normed();
         }
 
         myFloat d() const {
@@ -160,13 +184,14 @@ namespace BasicGeom {
     }
 
     Vector intersect(const Ray &ray, const Plane &plane) {
-        myFloat denominator = ray.direction * plane.n;
+        Vector dir = ray.direction.normed();
+        myFloat denominator = dir * plane.n;
         if (eq(denominator, 0.)) {
             return NONE;
         }
         myFloat t = -(ray.start * plane.n + plane.d()) / denominator;
         if (greaterOrEqual(t, 0.)) {
-            return ray.start + ray.direction * t;;
+            return ray.start + dir * t;;
         }
         return NONE;
     }

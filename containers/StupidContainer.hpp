@@ -6,6 +6,7 @@
 #include "../STLReader.hpp"
 #include "Container.hpp"
 #include "../geometry/BasicGeom.hpp"
+#include "../figures/Sphere.hpp"
 #include <vector>
 #include <utility>
 

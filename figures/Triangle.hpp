@@ -4,6 +4,10 @@
 #include "Figure.hpp"
 #include "FlatFigure.hpp"
 #include "../geometry/BasicGeom.hpp"
+#include <algorithm>
+
+using std::min;
+using std::max;
 
 using namespace Float;
 using namespace BasicGeom;
@@ -48,6 +52,15 @@ public:
             throw "triangle only has three sides";
         }
         return V[i];
+    }
+
+    BoundingBox getBoundingBox() const {
+        BoundingBox result;
+        for (int i = 0; i < DIMENSIONS; ++i) {
+            result[i][0] = min(min(V[0][i], V[1][i]), V[2][i]);
+            result[i][1] = max(max(V[0][i], V[1][i]), V[2][i]);
+        }
+        return result;
     }
 };
 

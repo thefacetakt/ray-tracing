@@ -35,8 +35,8 @@ public:
                     if (greaterOrEqual(normal * cameraRay.direction, 0.)) {
                         normal = -normal;
                     }
-                    float currentIncrease = lamp.getIncrease(camViewPoint.first,
-                                                             normal);
+                    float currentIncrease = fabs(lamp.getIncrease(camViewPoint.first,
+                                                             normal));
                     if (greaterOrEqual(currentIncrease, 0.)) {
                         increase += currentIncrease;
                     } else {
