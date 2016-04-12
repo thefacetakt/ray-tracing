@@ -1,2 +1,9 @@
 build/*
-models/*
+*.stl
+*.STL
+*.zip
+*.rb
+*.lamps
+
+!models/0/lights.lamps
+!models/0/scene.stl
