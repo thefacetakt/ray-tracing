@@ -6,7 +6,7 @@
 <table>
 <tr>
 <td>
-<img src="https://raw.githubusercontent.com/thefacetakt/ray-tracing/master/models/0/result/result.png" />
+<img src="models/0/result/result.png" />
 </td>
 <tr>
 <table>
