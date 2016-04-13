@@ -11,7 +11,11 @@
 <tr>
 <table>
 
-<h2> <a href = "http://www.thingiverse.com/thing:319413" > Какая-то моделька из интернета: </a> </h2>
+<h2>
+    <a href = "http://www.thingiverse.com/thing:319413" >
+        Какая-то моделька из интернета:
+    </a>
+</h2>
 
 <table>
 <tr>
@@ -36,6 +40,24 @@
 </td>
 <td>
 <img src="models/2/result/down.png" />
+</td>
+</tr>
+</table>
+
+<h2>
+    <a href = "http://www.thingiverse.com/thing:937556" >
+        Какая-то беседка из интернета:
+    </a>
+</h2>
+<table>
+<tr>
+<td>
+<img src="models/3/result/body-up.png" />
+</td>
+</tr>
+<tr>
+<td>
+<img src="models/3/result/body-side.png" />
 </td>
 </tr>
 </table>
