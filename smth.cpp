@@ -7,15 +7,16 @@
 #include "containers/StupidContainer.hpp"
 
 int main(int argc, char **argv) {
-    Camera camera(Vector(0, 0, 0),
-                  Vector(0, 0, 50),
-                  Vector(1, 0, 0));
+    Camera camera(Vector(-150, 100, 200),
+                  Vector(3000, 0, 0),
+                  Vector(0, 0, 1));
     char *lampsFile = argv[1];
     char *sceneFile = argv[2];
     char *outFile = argv[3];
     Scene *scene = new Scene(lampsFile, sceneFile);
-    Image image = view(camera, scene, 480, 720);
+    Image image = view(camera, scene, 2160, 3840);
     image.write(outFile);
     delete scene;
+    printf("%d\n", steps);
     return 0;
 }

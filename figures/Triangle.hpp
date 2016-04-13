@@ -62,6 +62,14 @@ public:
         }
         return result;
     }
+
+    myFloat getBoundingBox(int dim, int side) const {
+        if (side == 0) {
+            return min(V[0][dim], min(V[1][dim], V[2][dim]));
+        } else {
+            return max(V[0][dim], max(V[1][dim], V[2][dim]));
+        }
+    }
 };
 
 #endif

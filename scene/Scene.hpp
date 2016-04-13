@@ -5,6 +5,7 @@
 #include "../geometry/BasicGeom.hpp"
 #include "../containers/Container.hpp"
 #include "../containers/StupidContainer.hpp"
+#include "../containers/KDTree.hpp"
 #include "../reading/LightsLoader.hpp"
 #include <vector>
 
@@ -17,7 +18,7 @@ public:
 
     Scene(const char *lightsFile, const char *figuresFile) {
         lights = readLightSources(lightsFile);
-        container = new StupidContainer(figuresFile);
+        container = new KDTree(figuresFile);
     }
 
     Image::RGB color(const Ray &cameraRay) const {

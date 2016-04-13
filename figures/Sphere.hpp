@@ -66,6 +66,10 @@ public:
         }
         return result;
     }
+
+    myFloat getBoundingBox(int dim, int side) const {
+        return O[dim] + (2 * side - 1) * R;
+    }
 };
 
 #endif
