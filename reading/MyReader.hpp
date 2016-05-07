@@ -21,7 +21,7 @@ Body::Properties scanfProperties(FILE *in) {
     color.scanfColor(in);
     color.setRandomIfNull();
     myFloat alpha;
-    fscanf(in, "%lf", &alpha);
+    assert(fscanf(in, "%lf", &alpha) == 1);
     return {color, alpha};
 }
 
@@ -32,10 +32,9 @@ vector <Body *> readMy(const char *filename) {
     }
     FILE *in = fopen(filename, "r");
     int T, S;
-    fscanf(in, "%d", &T);
+    assert(fscanf(in, "%d", &T) == 1);
 
     for (int z = 0; z < T; ++z) {
-        printf("%d\n", z);
         Triangle* current = new Triangle();
         for (int i = 0; i < Triangle::size(); ++i) {
             (*current)[i].scanfVector(in);
@@ -43,11 +42,11 @@ vector <Body *> readMy(const char *filename) {
         result.push_back(new Body(scanfProperties(in), current));
     }
 
-    fscanf(in, "%d", &S);
+    assert(fscanf(in, "%d", &S) == 1);
     for (int z = 0; z < S; ++z) {
         Sphere *current = new Sphere();
         current->O.scanfVector(in);
-        fscanf(in, "%lf", &current->R);
+        assert(fscanf(in, "%lf", &current->R) == 1);
         result.push_back(new Body(scanfProperties(in), current));
     }
     fclose(in);

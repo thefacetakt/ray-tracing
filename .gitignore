@@ -4,6 +4,7 @@ build/*
 *.zip
 *.rb
 *.lamps
+*.my
 
 !models/0/lights.lamps
 !models/0/scene.stl

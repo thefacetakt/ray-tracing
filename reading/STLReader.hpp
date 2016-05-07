@@ -4,6 +4,7 @@
 #include "../figures/Triangle.hpp"
 #include "../figures/Figure.hpp"
 #include "../figures/Sphere.hpp"
+#include "../rendering/Image.hpp"
 #include <cstdio>
 #include <cstring>
 
@@ -13,8 +14,8 @@ const char *SPHERE = "sphere";
 const char *MIRROR_SPHERE = "sphere";
 const char *BAD_FORMAT = "bad stl file";
 
-vector <Figure *> readSTL(const char *filename) {
-    vector <Figure *> result;
+vector <Body *> readSTL(const char *filename) {
+    vector <Body *> result;
     if (filename == NULL) {
         return result;
     }
@@ -36,13 +37,13 @@ vector <Figure *> readSTL(const char *filename) {
                     }
                 }
             }
-            result.push_back(dynamic_cast<Figure *>(current));
+            result.push_back(new Body(current));
         } else if (strcmp(s, SPHERE) == 0) {
             Sphere *sphere = new Sphere();
             if (!sphere->fscanfSelf(in)) {
                 throw BAD_FORMAT;
             }
-            result.push_back(dynamic_cast<Figure *>(sphere));
+            result.push_back(new Body(sphere));
         }
     }
     fclose(in);

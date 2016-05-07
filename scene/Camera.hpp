@@ -38,7 +38,7 @@ public:
         stepX.scanfVector(in);
         stepX = stepX.normed();
         stepY = this->stepX % (direction.normed());
-        fscanf(in, "%d %d", &height, &width);
+        assert(fscanf(in, "%d %d", &height, &width) == 2);
         fclose(in);
     }
 

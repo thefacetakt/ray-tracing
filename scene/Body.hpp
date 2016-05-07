@@ -22,6 +22,12 @@ struct Body {
         : properties(properties), figure(figure) {
     }
 
+    Body(Figure * const & figure)
+        : figure(figure) {
+        properties.color = GREY;
+        properties.alpha = 1.0;
+    }
+
     ~Body() {
         delete figure;
     }

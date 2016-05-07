@@ -19,7 +19,14 @@ public:
 
     Scene(const char *lightsFile, const char *figuresFile) {
         lights = readLightSources(lightsFile);
-        container = new KDTree(figuresFile);
+        EFileMode mode;
+        int lengthOfFigiresFileName =strlen(figuresFile);
+        if (figuresFile[lengthOfFigiresFileName - 1] == 'l') { //'stl'
+            mode = STL;
+        } else {
+            mode = MY_OWN;
+        }
+        container = new KDTree(figuresFile, mode);
     }
 
     Image::RGB color(const Ray &cameraRay, int depth=0) const {

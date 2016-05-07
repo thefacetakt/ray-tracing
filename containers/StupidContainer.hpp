@@ -20,12 +20,13 @@ class StupidContainer: public Container {
     vector<Body> bodies;
 public:
     StupidContainer(const char *filename) {
-        vector <Figure *> figures = readSTL(filename);
-        bodies.resize(figures.size());
-        for (size_t i = 0; i < figures.size(); ++i) {
-            bodies[i].figure = figures[i];
-            bodies[i].properties.color = Image::RGB(rand() % 255, rand() % 255,
-                                                    rand() % 255);
+        vector <Body *> bodiesPtr = readSTL(filename);
+        bodies.resize(bodiesPtr.size());
+        for (size_t i = 0; i < bodiesPtr.size(); ++i) {
+            bodies[i].properties = bodiesPtr[i]->properties;
+            bodies[i].figure = bodiesPtr[i]->figure;
+            bodiesPtr[i]->figure = NULL;
+            delete bodiesPtr[i];
         }
     }
 

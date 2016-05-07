@@ -29,7 +29,7 @@ public:
         }
 
         void scanfColor(FILE *in) {
-            fscanf(in, "%d%d%d", &R, &G, &B);
+            assert(fscanf(in, "%hhu%hhu%hhu", &R, &G, &B) == 3);
         }
 
         void setRandomIfNull() {
@@ -71,6 +71,8 @@ private:
     vector <vector <RGB> > body;
 
 public:
+
+
     Image(size_t width, size_t height) {
         this->width = width;
         this->height = height;
@@ -102,5 +104,7 @@ public:
         image.write(filename);
     }
 };
+
+static const Image::RGB GREY = Image::RGB(100, 100, 100);
 
 #endif

@@ -13,6 +13,11 @@ using std::nth_element;
 
 int steps = 0;
 
+enum EFileMode {
+    STL,
+    MY_OWN,
+};
+
 class KDTree: public Container {
     struct Node {
         BoundingBox bounds;
@@ -85,8 +90,15 @@ class KDTree: public Container {
     }
 
 public:
-    KDTree(const char *filename) {
-        vector <Body *> bodies = readMy(filename);
+    KDTree(const char *filename, EFileMode mode) {
+        vector <Body *> bodies;
+        switch (mode) {
+            case STL:
+                bodies = readSTL(filename);
+            break; case MY_OWN:
+                bodies = readMy(filename);
+            break;
+        }
         root = makeTree(bodies.begin(), bodies.end(), 0);
 
 #ifdef RT_DEBUG
@@ -95,10 +107,10 @@ public:
             fprintf(stderr, "%.3f %.3f\n", root->bounds[i][0],
                     root->bounds[i][1]);
         }
-        fprintf(stderr, "Figures: %d\n", bodies.size());
+        fprintf(stderr, "Figures: %zu\n", bodies.size());
 #endif
-
     }
+
     virtual pair<Vector, const Body *> rayIntersection(const Ray &ray) const {
         myFloat currentTime = 1e18;
         const Body * currentIntersection = NULL;

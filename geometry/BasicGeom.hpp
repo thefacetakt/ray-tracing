@@ -2,6 +2,7 @@
 #define RT_BASIC_GEOM
 
 #include "Float.hpp"
+#include <cassert>
 
 using namespace Float;
 
@@ -117,8 +118,7 @@ namespace BasicGeom {
     }
 
     void Vector::scanfVector(FILE *in) {
-        fscanf(in, "%lf%lf%lf", &x, &y, &z);
-        printf("%lf%lf%lf\n", x, y, z);
+        assert(fscanf(in, "%lf%lf%lf", &x, &y, &z) == 3);
     }
 
     bool collinearIfParralel(const Vector &a, const Vector &b) {
