@@ -61,3 +61,11 @@
 </td>
 </tr>
 </table>
+
+<h2>
+    <a href="models/5" >
+        Начало отражений
+    </a>
+</h2>
+
+<img src="models/5/result.png" />

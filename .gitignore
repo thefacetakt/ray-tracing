@@ -5,9 +5,12 @@ build/*
 *.rb
 *.lamps
 *.my
+*.cfg
 
 !models/0/lights.lamps
 !models/0/scene.stl
+
+models/4/*
 models/4/images/*
 models/4/LICENSE.txt
 models/4/README.txt
