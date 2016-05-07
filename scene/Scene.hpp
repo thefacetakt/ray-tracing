@@ -12,6 +12,7 @@
 using std::vector;
 
 class Scene {
+    static const int MAX_DEPTH = 2;
     vector <LightSource> lights;
     Container *container;
 public:
@@ -21,10 +22,10 @@ public:
         container = new KDTree(figuresFile);
     }
 
-    Image::RGB color(const Ray &cameraRay) const {
+    Image::RGB color(const Ray &cameraRay, int depth=0) const {
         auto camViewPoint = container->rayIntersection(cameraRay);
         if (camViewPoint.first != NONE) {
-            float increase = 0;
+            float increase = 0.1;
             for (auto &lamp: lights) {
                 auto lampPoint
                     = container->rayIntersection(Ray(lamp.position,
@@ -36,7 +37,8 @@ public:
                     if (greaterOrEqual(normal * cameraRay.direction, 0.)) {
                         normal = -normal;
                     }
-                    float currentIncrease = fabs(lamp.getIncrease(camViewPoint.first,
+                    float currentIncrease = fabs(lamp.getIncrease(
+                                                             camViewPoint.first,
                                                              normal));
                     if (greaterOrEqual(currentIncrease, 0.)) {
                         increase += currentIncrease;
@@ -45,7 +47,28 @@ public:
                     }
                 }
             }
-            return camViewPoint.second->properties.color * increase;
+
+            Image::RGB myColor
+                = camViewPoint.second->properties.color * increase;
+            Image::RGB reflectedColor;
+            if (depth != MAX_DEPTH) {
+                reflectedColor
+                    = color(Ray(camViewPoint.first,
+                                reflection(
+                                    cameraRay.start,
+                                    camViewPoint.first,
+                                    camViewPoint.second->figure
+                                        ->getTangentPlane(camViewPoint.first).n
+                                ),
+                                START_POINT
+                            ),
+                            depth + 1
+                      );
+            }
+            auto ret = myColor * camViewPoint.second->properties.alpha
+                  + reflectedColor * (1 - camViewPoint.second
+                                              ->properties.alpha);
+            return ret;
         }
         return Image::RGB(0, 0, 0);
     }

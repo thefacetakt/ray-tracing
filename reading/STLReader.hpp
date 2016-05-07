@@ -7,9 +7,12 @@
 #include <cstdio>
 #include <cstring>
 
+
 const char *VERTEX = "vertex";
 const char *SPHERE = "sphere";
+const char *MIRROR_SPHERE = "sphere";
 const char *BAD_FORMAT = "bad stl file";
+
 vector <Figure *> readSTL(const char *filename) {
     vector <Figure *> result;
     if (filename == NULL) {
@@ -27,9 +30,6 @@ vector <Figure *> readSTL(const char *filename) {
                            &(*current)[i].z) != Triangle::size()) {
                     throw BAD_FORMAT;
                 }
-                // (*current)[i].x *= 100;
-                // (*current)[i].y *= 100;
-                // (*current)[i].z *= 100;
                 if (i + 1 != Triangle::size()) {
                     if (fscanf(in, "%s", s) != 1) { //here should be vertex word
                         throw BAD_FORMAT;

@@ -14,22 +14,31 @@ public:
     struct RGB {
         unsigned char R, G, B;
         unsigned char& operator[](size_t i) {
-            if (i == 0) {
-                return R;
+            switch (i) {
+                case 0:
+                    return R;
+                break; case 1:
+                    return G;
+                break; case 2:
+                    return B;
             }
-            if (i == 1) {
-                return G;
-            }
-            if (i == 2) {
-                return B;
-            }
-            throw "RNG index out of range";
         }
 
         RGB() {
             R = G = B = 0;
         }
 
+        void scanfColor(FILE *in) {
+            fscanf(in, "%d%d%d", &R, &G, &B);
+        }
+
+        void setRandomIfNull() {
+            if (R == 0 && G == 0 && B == 0) {
+                R = rand() % 255;
+                G = rand() % 255;
+                B = rand() % 255;
+            }
+        }
         unsigned char colorFromFloat(float x) const {
             if (less(x, 0.)) {
                 return 0;
@@ -40,10 +49,16 @@ public:
             return (unsigned char)(x);
         }
 
-        RGB operator*(float increase) const {
+        RGB operator*(myFloat increase) const {
             return RGB(colorFromFloat(R * increase),
                        colorFromFloat(G * increase),
                        colorFromFloat(B * increase));
+        }
+
+        RGB operator+(const RGB &other) const {
+            return RGB(colorFromFloat(R + other.R),
+                       colorFromFloat(G + other.G),
+                       colorFromFloat(B + other.B));
         }
 
         RGB(unsigned char r, unsigned char g, unsigned char b)

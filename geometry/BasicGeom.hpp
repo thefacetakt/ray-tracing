@@ -40,6 +40,8 @@ namespace BasicGeom {
         Vector normed() const;
 
         myFloat operator[](size_t i) const;
+
+        void scanfVector(FILE *in);
     };
 
     const Vector NONE = Vector(1e18, 1e18, 1e18);
@@ -104,13 +106,19 @@ namespace BasicGeom {
     }
 
     myFloat Vector::operator[](size_t i) const {
-        if (i == 0) {
-            return x;
+        switch (i) {
+            case 0:
+                return x;
+            break; case 1:
+                return y;
+            break; case 2:
+                return z;
         }
-        if (i == 1) {
-            return y;
-        }
-        return z;
+    }
+
+    void Vector::scanfVector(FILE *in) {
+        fscanf(in, "%lf%lf%lf", &x, &y, &z);
+        printf("%lf%lf%lf\n", x, y, z);
     }
 
     bool collinearIfParralel(const Vector &a, const Vector &b) {
@@ -194,6 +202,22 @@ namespace BasicGeom {
             return ray.start + dir * t;;
         }
         return NONE;
+    }
+
+    Vector projection(const Vector &a, const Vector &b, const Vector &d2) {
+        Vector normalUp = (a - b) % d2;
+        Vector normal = (normalUp % d2).normed();
+        return a + (normal * (normalUp.len() / d2.len()));
+    }
+    void printVectorIfDebug (const Vector &a) {
+#ifdef RT_DEBUG
+        printf("%.3f %.3f %.3f; ", a.x, a.y, a.z);
+#endif
+    }
+    Vector reflection(const Vector &a, const Vector &b, const Vector &d2) {
+          Vector normalUp = (a - b) % d2;
+          Vector normal = (normalUp % d2).normed();
+          return a + (normal * (2 * normalUp.len() / d2.len()));
     }
 };
 

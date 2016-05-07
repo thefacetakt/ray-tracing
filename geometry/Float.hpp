@@ -6,7 +6,7 @@
 typedef double myFloat;
 
 namespace Float {
-    const myFloat EPS = 1e-9;
+    const myFloat EPS = 1e-11;
 
     inline bool eq(myFloat a, myFloat b) {
         return fabsl(a - b) < EPS;

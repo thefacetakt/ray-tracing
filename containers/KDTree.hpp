@@ -4,6 +4,7 @@
 #include "Container.hpp"
 #include "../figures/Figure.hpp"
 #include "../reading/STLReader.hpp"
+#include "../reading/MyReader.hpp"
 #include <vector>
 #include <algorithm>
 
@@ -74,7 +75,7 @@ class KDTree: public Container {
         if (current != NONE) {
             myFloat myTime = (current - currentRay.start)
                               * currentRay.direction;
-            if (greaterOrEqual(myTime, 0.) && less(myTime, currentTime)) {
+            if (greater(myTime, 0.) && less(myTime, currentTime)) {
                 currentTime = myTime;
                 currentIntersection = v->body;
             }
@@ -85,18 +86,18 @@ class KDTree: public Container {
 
 public:
     KDTree(const char *filename) {
-        vector <Figure *> figures = readSTL(filename);
-        vector <Body *> bodies(figures.size());
-        for (size_t i = 0; i < figures.size(); ++i) {
-            bodies[i] = new Body({Image::RGB(100, 100, 100)}, //rand() % 255, rand() % 255,
-                                                    //rand() % 255)},
-                                 figures[i]);
-        }
+        vector <Body *> bodies = readMy(filename);
         root = makeTree(bodies.begin(), bodies.end(), 0);
+
+#ifdef RT_DEBUG
+        fprintf(stderr, "Bounding box:\n");
         for (int i = 0; i < 3; ++i) {
-            printf("%.3f %.3f\n", root->bounds[i][0], root->bounds[i][1]);
+            fprintf(stderr, "%.3f %.3f\n", root->bounds[i][0],
+                    root->bounds[i][1]);
         }
-        printf("%d\n", bodies.size());
+        fprintf(stderr, "Figures: %d\n", bodies.size());
+#endif
+
     }
     virtual pair<Vector, const Body *> rayIntersection(const Ray &ray) const {
         myFloat currentTime = 1e18;

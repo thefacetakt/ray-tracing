@@ -7,6 +7,7 @@
 struct Body {
     struct Properties {
         Image::RGB color;
+        myFloat alpha;
     };
 
     Properties properties;
@@ -14,9 +15,10 @@ struct Body {
 
     Body() {
         figure = NULL;
+        properties.alpha = 0;
     }
 
-    Body(const Properties &properties, Figure *& figure)
+    Body(const Properties &properties, Figure * const & figure)
         : properties(properties), figure(figure) {
     }
 
