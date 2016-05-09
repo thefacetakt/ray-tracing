@@ -4,10 +4,12 @@
 #include <vector>
 #include <cstddef>
 #include <png++/png.hpp>
+#include <string>
 #include "../geometry/Float.hpp"
 
 using namespace Float;
 using std::vector;
+using std::string;
 
 class Image {
 public:
@@ -61,6 +63,12 @@ public:
                        colorFromFloat(B + other.B));
         }
 
+        RGB(png::rgb_pixel pixel) {
+            R = pixel.red;
+            G = pixel.green;
+            B = pixel.blue;
+        }
+
         RGB(unsigned char r, unsigned char g, unsigned char b)
             : R(r), G(g), B(b) {
         }
@@ -77,6 +85,22 @@ public:
         this->width = width;
         this->height = height;
         body.assign(height, vector<RGB>(width));
+    }
+
+    Image(string name) {
+        png::image< png::rgb_pixel > image(name);
+        height = image.get_height();
+        width = image.get_width();
+        body.assign(height, vector<RGB>(width));
+        for (size_t y = 0; y < height; ++y) {
+            for (size_t x = 0; x < width; ++x) {
+                body[y][x] = RGB(image[y][x]);
+            }
+        }
+    }
+
+    Image() {
+        width = height = 0;
     }
 
     size_t getWidth() const {

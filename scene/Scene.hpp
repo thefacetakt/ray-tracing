@@ -8,11 +8,14 @@
 #include "../containers/KDTree.hpp"
 #include "../reading/LightsLoader.hpp"
 #include <vector>
+#include <iostream>
+
 
 using std::vector;
+using std::cout;
 
 class Scene {
-    static const int MAX_DEPTH = 2;
+    static const int MAX_DEPTH = 1;
     vector <LightSource> lights;
     Container *container;
 public:
@@ -30,6 +33,7 @@ public:
     }
 
     Image::RGB color(const Ray &cameraRay, int depth=0) const {
+
         auto camViewPoint = container->rayIntersection(cameraRay);
         if (camViewPoint.first != NONE) {
             float increase = 0.1;
@@ -39,7 +43,7 @@ public:
                                                      camViewPoint.first,
                                                      START_POINT));
                 if (lampPoint == camViewPoint) {
-                    Vector normal = camViewPoint.second->figure
+                    Vector normal = camViewPoint.second->getFigure()
                                         ->getTangentPlane(camViewPoint.first).n;
                     if (greaterOrEqual(normal * cameraRay.direction, 0.)) {
                         normal = -normal;
@@ -56,26 +60,28 @@ public:
             }
 
             Image::RGB myColor
-                = camViewPoint.second->properties.color * increase;
+                = camViewPoint.second->getColor(camViewPoint.first) * increase;
             Image::RGB reflectedColor;
-            if (depth != MAX_DEPTH) {
+            if (depth != MAX_DEPTH
+                && !eq(camViewPoint.second->getReflection(), 1.)) {
                 reflectedColor
-                    = color(Ray(camViewPoint.first,
+                    = color(Ray(
+                                camViewPoint.first,
                                 reflection(
                                     cameraRay.start,
                                     camViewPoint.first,
-                                    camViewPoint.second->figure
+                                    camViewPoint.second->getFigure()
                                         ->getTangentPlane(camViewPoint.first).n
                                 ),
                                 START_POINT
+
                             ),
                             depth + 1
                       );
             }
-            auto ret = myColor * camViewPoint.second->properties.alpha
+            return myColor * camViewPoint.second->getReflection()
                   + reflectedColor * (1 - camViewPoint.second
-                                              ->properties.alpha);
-            return ret;
+                                              ->getReflection());
         }
         return Image::RGB(0, 0, 0);
     }

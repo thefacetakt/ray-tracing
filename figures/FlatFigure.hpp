@@ -21,6 +21,8 @@ public:
         return getContainingPlane();
     }
 
+    virtual Vector getPoint() const = 0;
+
     Vector rayIntersection(const Ray &r) const {
         Plane self = getContainingPlane();
         Vector candidate = intersect(r, self);
@@ -28,6 +30,17 @@ public:
                 return candidate;
         }
         return NONE;
+    }
+
+    virtual Vector getOX() const = 0;
+
+    Vector getOY() const {
+        return (getOX() % getContainingPlane().n).normed();
+    }
+
+    bool on(const Vector &point) const {
+        auto plane = getContainingPlane();
+        return (eq((point - plane.start) * plane.n, 0.)) && inside(point);
     }
 };
 

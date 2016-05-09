@@ -5,6 +5,7 @@
 #include "../figures/Figure.hpp"
 #include "../figures/Sphere.hpp"
 #include "../rendering/Image.hpp"
+#include "../scene/OneColorBody.hpp"
 #include <cstdio>
 #include <cstring>
 
@@ -14,8 +15,8 @@ const char *SPHERE = "sphere";
 const char *MIRROR_SPHERE = "sphere";
 const char *BAD_FORMAT = "bad stl file";
 
-vector <Body *> readSTL(const char *filename) {
-    vector <Body *> result;
+vector <IBody *> readSTL(const char *filename) {
+    vector <IBody *> result;
     if (filename == NULL) {
         return result;
     }
@@ -26,7 +27,7 @@ vector <Body *> readSTL(const char *filename) {
         if (strcmp(s, VERTEX) == 0) {
             Triangle* current = new Triangle();
             for (int i = 0; i < Triangle::size(); ++i) {
-                if (fscanf(in, "%lf %lf %lf", &(*current)[i].x,
+                if (fscanf(in, "%Lf %Lf %Lf", &(*current)[i].x,
                            &(*current)[i].y,
                            &(*current)[i].z) != Triangle::size()) {
                     throw BAD_FORMAT;
@@ -37,13 +38,13 @@ vector <Body *> readSTL(const char *filename) {
                     }
                 }
             }
-            result.push_back(new Body(current));
+            result.push_back(new OneColorBody(current));
         } else if (strcmp(s, SPHERE) == 0) {
             Sphere *sphere = new Sphere();
             if (!sphere->fscanfSelf(in)) {
                 throw BAD_FORMAT;
             }
-            result.push_back(new Body(sphere));
+            result.push_back(new OneColorBody(sphere));
         }
     }
     fclose(in);

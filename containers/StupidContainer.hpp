@@ -1,7 +1,7 @@
 #ifndef RT_STUPID_CONTAINER
 #define RT_STUPID_CONTAINER
 
-#include "../scene/Body.hpp"
+#include "../scene/OneColorBody.hpp"
 #include "../rendering/Image.hpp"
 #include "../reading/STLReader.hpp"
 #include "Container.hpp"
@@ -17,32 +17,25 @@ using std::vector;
 using namespace BasicGeom;
 
 class StupidContainer: public Container {
-    vector<Body> bodies;
+    vector<IBody *> bodies;
 public:
     StupidContainer(const char *filename) {
-        vector <Body *> bodiesPtr = readSTL(filename);
-        bodies.resize(bodiesPtr.size());
-        for (size_t i = 0; i < bodiesPtr.size(); ++i) {
-            bodies[i].properties = bodiesPtr[i]->properties;
-            bodies[i].figure = bodiesPtr[i]->figure;
-            bodiesPtr[i]->figure = NULL;
-            delete bodiesPtr[i];
-        }
+        bodies = readSTL(filename);
     }
 
-    pair<Vector, const Body *> rayIntersection(const Ray &ray) const {
+    pair<Vector, const IBody *> rayIntersection(const Ray &ray) const {
         double minimalTime = 1e18;
-        const Body *currentBody = NULL;
+        const IBody *currentBody = NULL;
 
-        for (auto const &body: bodies) {
-            Vector candidate = body.figure->rayIntersection(ray);
+        for (auto &body: bodies) {
+            Vector candidate = body->getFigure()->rayIntersection(ray);
             if (candidate != NONE) {
                 double currentTime = (candidate - ray.start) * ray.direction;
 
                 if (less(currentTime, minimalTime)) { //and time != 0, perhaps??
                     minimalTime = currentTime;
                     //TODO: it will not always be so;
-                    currentBody = &body;
+                    currentBody = body;
                 }
             }
         }

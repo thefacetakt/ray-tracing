@@ -52,7 +52,7 @@ public:
     }
 
     bool fscanfSelf(FILE *in) {
-        if (fscanf(in, "%lf %lf %lf %lf", &O.x, &O.y, &O.z, &R) != 4) {
+        if (fscanf(in, "%Lf %Lf %Lf %Lf", &O.x, &O.y, &O.z, &R) != 4) {
             return false;
         }
         return true;
@@ -69,6 +69,14 @@ public:
 
     myFloat getBoundingBox(int dim, int side) const {
         return O[dim] + (2 * side - 1) * R;
+    }
+
+    string name() const {
+        return "Sphere";
+    }
+
+    bool on(const Vector &point) const {
+        return eq((point - O).len2(), sq(R));
     }
 };
 

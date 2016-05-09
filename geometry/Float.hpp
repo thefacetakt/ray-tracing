@@ -3,10 +3,10 @@
 
 #include <cmath>
 
-typedef double myFloat;
+typedef long double myFloat;
 
 namespace Float {
-    const myFloat EPS = 1e-11;
+    const myFloat EPS = 1e-10;
 
     inline bool eq(myFloat a, myFloat b) {
         return fabsl(a - b) < EPS;
