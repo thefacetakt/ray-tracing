@@ -13,7 +13,7 @@ using std::string;
 
 long long mod(long long x, long long y) {
     if (x < 0) {
-        x += (100 + x / y) * y;
+        x += (100 - x / y) * y;
     }
     return x % y;
 }

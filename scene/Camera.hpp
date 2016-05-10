@@ -47,14 +47,13 @@ public:
     }
 
     Image view(const Scene *scene) {
+        static int cnt = 0;
         Image result(width, height);
         for (int y = -height / 2; y < height / 2; ++y) {
             for (int x = -width / 2; x < width / 2; ++x) {
-                result(height / 2 + y, width / 2 + x)
-                    = scene->color(Ray(getPosition(),
+                result(height / 2 + y, width / 2 + x) =
+                    scene->color(Ray(getPosition(),
                                        getPixel(x, y), START_POINT));
-
-
             }
         }
         return result;

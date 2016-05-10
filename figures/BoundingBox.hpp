@@ -21,7 +21,6 @@ struct BoundingBox {
     }
 
     bool intersects(const Ray &ray) const {
-
         for (int i = 0; i < DIMENSIONS; ++i) {
             for (int j = 0; j < 2; ++j) {
                 myFloat t;
@@ -41,9 +40,9 @@ struct BoundingBox {
                 Vector candidate = ray.start + ray.direction * t;
                 bool fail = false;
                 for (int k = 1; k < DIMENSIONS; ++k) {
-                    if (!(less(boundaries[(i + k) % DIMENSIONS][0],
+                    if (!(lessOrEqual(boundaries[(i + k) % DIMENSIONS][0],
                                candidate[(i + k) % DIMENSIONS]) &&
-                          less(candidate[(i + k) % DIMENSIONS],
+                          lessOrEqual(candidate[(i + k) % DIMENSIONS],
                                boundaries[(i + k) % DIMENSIONS][1]))) {
                         fail = true;
                     }
