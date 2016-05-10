@@ -4,12 +4,14 @@
 #include "../rendering/Image.hpp"
 #include "../figures/Figure.hpp"
 #include "../containers/Container.hpp"
+#include "../parallel/ThreadPool.hpp"
 #include "Scene.hpp"
 #include <algorithm>
-
+#include <thread>
 
 using std::max;
 using std::vector;
+using std::thread;
 
 class Camera {
     Vector position;
@@ -47,13 +49,16 @@ public:
     }
 
     Image view(const Scene *scene) {
+        ThreadPool pool(thread::hardware_concurrency());
         static int cnt = 0;
         Image result(width, height);
         for (int y = -height / 2; y < height / 2; ++y) {
             for (int x = -width / 2; x < width / 2; ++x) {
-                result(height / 2 + y, width / 2 + x) =
-                    scene->color(Ray(getPosition(),
-                                       getPixel(x, y), START_POINT));
+                pool.submit([x, y, scene, this, &result] {
+                    result(this->height / 2 + y, this->width / 2 + x) =
+                        scene->color(Ray(this->getPosition(),
+                                           this->getPixel(x, y), START_POINT));
+                });
             }
         }
         return result;
