@@ -71,14 +71,14 @@ class KDTree: public Container {
 
     void intersect(Node *v, myFloat &currentTime,
                    const IBody * &currentIntersection,
-                   const Ray &currentRay) const {
+                   const Ray &currentRay, bool transparent=1) const {
         ++steps;
         if (!v || !(v->bounds.intersects(currentRay))) {
             return;
         }
-        if (!v->body->getFigure()->on(currentRay.start)) {
+        if (transparent || eq(v->body->getRefraction(), 1.)) {
             Vector current = v->body->getFigure()->rayIntersection(currentRay);
-            if (current != NONE) {
+            if (current != NONE && current != currentRay.start) {
                 myFloat myTime = (current - currentRay.start)
                                   * currentRay.direction;
                 if (greater(myTime, 0.) && less(myTime, currentTime)) {
@@ -87,8 +87,10 @@ class KDTree: public Container {
                 }
             }
         }
-        intersect(v->left, currentTime, currentIntersection, currentRay);
-        intersect(v->right, currentTime, currentIntersection, currentRay);
+        intersect(v->left, currentTime, currentIntersection, currentRay,
+                  transparent);
+        intersect(v->right, currentTime, currentIntersection, currentRay,
+                  transparent);
     }
 
 public:
@@ -106,17 +108,19 @@ public:
 #ifdef RT_DEBUG
         fprintf(stderr, "Bounding box:\n");
         for (int i = 0; i < 3; ++i) {
-            fprintf(stderr, "%.3Lf %.3Lf\n", root->bounds[i][0],
+            fprintf(stderr, "%.3lf %.3lf\n", root->bounds[i][0],
                     root->bounds[i][1]);
         }
         fprintf(stderr, "Figures: %zu\n", bodies.size());
 #endif
     }
 
-    virtual pair<Vector, const IBody *> rayIntersection(const Ray &ray) const {
+    virtual pair<Vector, const IBody *> rayIntersection(const Ray &ray,
+                                                        bool transparent=1)
+                                                        const {
         myFloat currentTime = 1e18;
         const IBody * currentIntersection = NULL;
-        intersect(root, currentTime, currentIntersection, ray);
+        intersect(root, currentTime, currentIntersection, ray, transparent);
         if (eq(currentTime, 1e18)) {
             return {NONE, NULL};
         }

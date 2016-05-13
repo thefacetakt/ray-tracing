@@ -27,18 +27,16 @@ public:
     }
 
     Vector rayIntersection(const Ray &r) const {
-        Vector normalUp = ((O - r.start) % r.direction);
-        myFloat distance2 = normalUp.len2() / r.direction.len2();
+        Vector normedDirection = r.direction.normed();
+        Vector proj = projection(O, r.start, r.direction);
+        myFloat distance2 = (O - proj).len2();
         if (greater(distance2, sq(R))) {
             return NONE;
         }
-        myFloat startDistance = sqrt((O - r.start).len2() - distance2);
-        Vector normedDirection = r.direction.normed();
-        Vector projection = r.start + normedDirection * startDistance;
         myFloat intersecDistance = sqrt(sq(R) - distance2);
 
-        Vector candidate1 = projection - normedDirection * intersecDistance;
-        Vector candidate2 = projection + normedDirection * intersecDistance;
+        Vector candidate1 = proj - normedDirection * intersecDistance;
+        Vector candidate2 = proj + normedDirection * intersecDistance;
 
         myFloat t1 = (candidate1 - r.start) * normedDirection;
         myFloat t2 = (candidate2 - r.start) * normedDirection;
@@ -52,7 +50,7 @@ public:
     }
 
     bool fscanfSelf(FILE *in) {
-        if (fscanf(in, "%Lf %Lf %Lf %Lf", &O.x, &O.y, &O.z, &R) != 4) {
+        if (fscanf(in, "%lf %lf %lf %lf", &O.x, &O.y, &O.z, &R) != 4) {
             return false;
         }
         return true;

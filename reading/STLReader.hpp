@@ -27,7 +27,7 @@ vector <IBody *> readSTL(const char *filename) {
         if (strcmp(s, VERTEX) == 0) {
             Triangle* current = new Triangle();
             for (int i = 0; i < Triangle::size(); ++i) {
-                if (fscanf(in, "%Lf %Lf %Lf", &(*current)[i].x,
+                if (fscanf(in, "%lf %lf %lf", &(*current)[i].x,
                            &(*current)[i].y,
                            &(*current)[i].z) != Triangle::size()) {
                     throw BAD_FORMAT;

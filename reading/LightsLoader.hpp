@@ -21,7 +21,7 @@ vector<LightSource> readLightSources(const char *filename) {
     }
     for (int i = 0; i < n; ++i) {
         LightSource source;
-        if (fscanf(in, "%Lf%Lf%Lf%Lf", &source.position.x, &source.position.y,
+        if (fscanf(in, "%lf%lf%lf%lf", &source.position.x, &source.position.y,
                                &source.position.z, &source.energy) != 4) {
             throw BAD_FILE;
         }

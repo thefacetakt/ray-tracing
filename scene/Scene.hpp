@@ -15,7 +15,7 @@ using std::vector;
 using std::cout;
 
 class Scene {
-    static const int MAX_DEPTH = 1;
+    static const int MAX_REFLECTION_DEPTH = 1;
     vector <LightSource> lights;
     Container *container;
 public:
@@ -32,16 +32,41 @@ public:
         container = new KDTree(figuresFile, mode);
     }
 
-    Image::RGB color(const Ray &cameraRay, int depth=0) const {
-
+    Image::RGB color(const Ray &cameraRay, int reflectionDepth=0,
+                     myFloat currentRefraction=1.) const {
         auto camViewPoint = container->rayIntersection(cameraRay);
         if (camViewPoint.first != NONE) {
-            float increase = 0.1;
+            if (!eq(currentRefraction, 1.)
+                || !eq(camViewPoint.second->getRefraction(), 1.)) {
+                myFloat nextRefraction = (eq(currentRefraction, 1.)
+                                             ? camViewPoint.second
+                                               ->getRefraction()
+                                             : 1.);
+
+                 auto refracted
+                    = refraction(
+                        cameraRay.start,
+                        camViewPoint.first,
+                        camViewPoint.second->getFigure()
+                            ->getTangentPlane(camViewPoint.first).n,
+                        nextRefraction / currentRefraction
+                    );
+                  if (refracted != NONE) {
+                      return color(Ray(
+                          camViewPoint.first,
+                          refracted),
+                          reflectionDepth,
+                          nextRefraction
+                       );
+                   }
+            }
+
+            myFloat increase = 0.2;
             for (auto &lamp: lights) {
                 auto lampPoint
                     = container->rayIntersection(Ray(lamp.position,
                                                      camViewPoint.first,
-                                                     START_POINT));
+                                                     START_POINT), 0);
                 if (lampPoint == camViewPoint) {
                     Vector normal = camViewPoint.second->getFigure()
                                         ->getTangentPlane(camViewPoint.first).n;
@@ -53,17 +78,16 @@ public:
                                                              normal));
                     if (greaterOrEqual(currentIncrease, 0.)) {
                         increase += currentIncrease;
-                    } else {
-
                     }
                 }
             }
 
             Image::RGB myColor
                 = camViewPoint.second->getColor(camViewPoint.first) * increase;
+
             Image::RGB reflectedColor;
-            if (depth != MAX_DEPTH
-                && !eq(camViewPoint.second->getReflection(), 1.)) {
+            if (reflectionDepth != MAX_REFLECTION_DEPTH
+                && !eq(camViewPoint.second->getReflection(), 0.)) {
                 reflectedColor
                     = color(Ray(
                                 camViewPoint.first,
@@ -74,14 +98,15 @@ public:
                                         ->getTangentPlane(camViewPoint.first).n
                                 ),
                                 START_POINT
-
                             ),
-                            depth + 1
+                            reflectionDepth + 1,
+                            1.0
                       );
             }
-            return myColor * camViewPoint.second->getReflection()
-                  + reflectedColor * (1 - camViewPoint.second
-                                              ->getReflection());
+
+            return myColor * (1 - camViewPoint.second->getReflection())
+                  + reflectedColor * camViewPoint.second
+                                              ->getReflection();
         }
         return Image::RGB(0, 0, 0);
     }

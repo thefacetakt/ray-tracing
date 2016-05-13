@@ -20,7 +20,8 @@ long long mod(long long x, long long y) {
 
 struct TexturedBody : public IBody {
 private:
-    myFloat alpha;
+    myFloat reflection;
+    myFloat refraction;
     string textureName;
     FlatFigure *figure;
 public:
@@ -31,11 +32,15 @@ public:
     }
 
     myFloat getReflection() const {
-        return alpha;
+        return reflection;
+    }
+
+    myFloat getRefraction() const {
+        return refraction;
     }
 
     Image::RGB getColor(const Vector &v) const {
-        static const long long NORMING = 10;
+        static const long long NORMING = 1;
         Vector coords = (v - figure->getPoint());
         Image &texture = texturesPool[textureName];
         long long x = (coords * figure->getOX()) * NORMING,
@@ -46,10 +51,11 @@ public:
     }
 
     TexturedBody(FlatFigure * const &figure, string textureName,
-                 myFloat alpha=1.0) {
+                 myFloat reflection=0, myFloat refraction=0) {
         this->figure = figure;
         this->textureName = textureName;
-        this->alpha = alpha;
+        this->reflection = reflection;
+        this->refraction = refraction;
     }
 
     virtual ~TexturedBody() {

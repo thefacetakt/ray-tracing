@@ -23,7 +23,8 @@ public:
         bodies = readSTL(filename);
     }
 
-    pair<Vector, const IBody *> rayIntersection(const Ray &ray) const {
+    pair<Vector, const IBody *> rayIntersection(const Ray &ray,
+                                                bool transparent=1) const {
         double minimalTime = 1e18;
         const IBody *currentBody = NULL;
 

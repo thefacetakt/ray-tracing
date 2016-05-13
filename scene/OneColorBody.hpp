@@ -8,7 +8,8 @@
 struct OneColorBody : public IBody{
     struct Properties {
         Image::RGB color;
-        myFloat alpha;
+        myFloat reflection;
+        myFloat refraction;
     };
 
     Properties properties;
@@ -16,7 +17,8 @@ struct OneColorBody : public IBody{
 
     OneColorBody() {
         figure = NULL;
-        properties.alpha = 0;
+        properties.reflection = 0;
+        properties.refraction = 1;
     }
 
     OneColorBody(const Properties &properties, Figure * const & figure)
@@ -26,7 +28,8 @@ struct OneColorBody : public IBody{
     OneColorBody(Figure * const & figure)
         : figure(figure) {
         properties.color = GREY;
-        properties.alpha = 1.0;
+        properties.reflection = 0;
+        properties.refraction = 1;
     }
 
     const Figure * getFigure() const {
@@ -38,7 +41,11 @@ struct OneColorBody : public IBody{
     }
 
     myFloat getReflection() const {
-        return properties.alpha;
+        return properties.reflection;
+    }
+
+    myFloat getRefraction() const {
+        return properties.refraction;
     }
 
     virtual ~OneColorBody() {

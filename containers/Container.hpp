@@ -12,7 +12,9 @@ using namespace BasicGeom;
 
 class Container {
 public:
-    virtual pair<Vector, const IBody *> rayIntersection(const Ray &) const = 0;
+    virtual pair<Vector, const IBody *> rayIntersection(const Ray &,
+                                                        bool transparent=1)
+                                                        const = 0;
     virtual ~Container() {
     };
 };

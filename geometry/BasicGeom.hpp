@@ -118,7 +118,7 @@ namespace BasicGeom {
     }
 
     void Vector::scanfVector(FILE *in) {
-        assert(fscanf(in, "%Lf%Lf%Lf", &x, &y, &z) == 3);
+        assert(fscanf(in, "%lf%lf%lf", &x, &y, &z) == 3);
     }
 
     bool collinearIfParralel(const Vector &a, const Vector &b) {
@@ -205,37 +205,36 @@ namespace BasicGeom {
     }
 
     Vector projection(const Vector &a, const Vector &b, const Vector &d2) {
-        Vector normalUp = (a - b) % d2;
-        Vector normal = (normalUp % d2).normed();
-        return a + (normal * (normalUp.len() / d2.len()));
+        Vector proj = d2.normed() * (d2.normed() * (a - b));
+        return b + proj;
     }
 
     void printVectorIfDebug (const Vector &a) {
 #ifdef RT_DEBUG
-        printf("%.3Lf %.3Lf %.3Lf; ", a.x, a.y, a.z);
+        printf("%.3lf %.3lf %.3lf; ", a.x, a.y, a.z);
 #endif
     }
 
     Vector reflection(const Vector &a, const Vector &b, const Vector &d2) {
         Vector proj = d2.normed() * (d2.normed() * (a - b));
         return a + (proj - (a - b)) * 2;
-        Vector normalUp = (a - b) % d2;
-        Vector normal = (normalUp % d2).normed();
-        return a + (normal * (2 * normalUp.len() / d2.len()));
     }
 
-    Vector refraction(const Vector &a, const Vector &b, const Vector &d2,
+    Vector refraction(const Vector &a, const Vector &b,  Vector d2,
                       myFloat n) {
+        if (less(d2 * (a - b), 0.)) {
+            d2 = -d2;
+        }
         Vector normalUp = (a - b) % d2;
-        Vector secondDir = (d2 % normalUp).normed();
-        Vector firstDir = (-d2).normed();
+        Vector secondDir = -(d2 % normalUp).normed();
+        Vector firstDir = -(d2).normed();
         myFloat currentSin = normalUp.len() / ((a - b).len() * d2.len());
         myFloat nextSin = currentSin * n;
         if (greater(nextSin, 1.0)) {
             return NONE;
         }
-        return firstDir * currentSin
-               + secondDir * sqrt(1 - currentSin * currentSin);
+        return firstDir * sqrt(1 - sq(nextSin))
+               + secondDir * nextSin;
     }
 };
 

@@ -26,9 +26,9 @@ OneColorBody::Properties scanfProperties(FILE *in) {
     Image::RGB color;
     color.scanfColor(in);
     color.setRandomIfNull();
-    myFloat alpha;
-    assert(fscanf(in, "%Lf", &alpha) == 1);
-    return {color, alpha};
+    myFloat reflection, refraction;
+    assert(fscanf(in, "%lf %lf", &reflection, &refraction) == 2);
+    return {color, reflection, refraction};
 }
 
 vector <IBody *> readMy(const char *filename) {
@@ -52,7 +52,9 @@ vector <IBody *> readMy(const char *filename) {
         if (strcmp(textureName, NO_TEXTURE)) {
             string name(textureName);
             TexturedBody::addTexture(name);
-            result.push_back(new TexturedBody(current, name, properties.alpha));
+            result.push_back(new TexturedBody(current, name,
+                                              properties.reflection,
+                                              properties.refraction));
         } else {
             result.push_back(new OneColorBody(properties, current));
         }
@@ -62,7 +64,7 @@ vector <IBody *> readMy(const char *filename) {
     for (int z = 0; z < S; ++z) {
         Sphere *current = new Sphere();
         current->O.scanfVector(in);
-        assert(fscanf(in, "%Lf", &current->R) == 1);
+        assert(fscanf(in, "%lf", &current->R) == 1);
         result.push_back(new OneColorBody(scanfProperties(in), current));
     }
     fclose(in);
