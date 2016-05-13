@@ -13,6 +13,7 @@ using namespace Float;
 using namespace BasicGeom;
 
 class Triangle: public FlatFigure {
+    friend class Quadrangle;
     static const int SIDES = 3;
     Vector V[SIDES];
     bool inside(const Vector &v) const {

@@ -236,6 +236,14 @@ namespace BasicGeom {
         return firstDir * sqrt(1 - sq(nextSin))
                + secondDir * nextSin;
     }
+
+    myFloat angle(Vector a, Vector b) {
+        a = a.normed();
+        b = b.normed();
+        myFloat sinus = (a % b).len();
+        myFloat cosinus = (a * b);
+        return atan2(sinus, cosinus);
+    }
 };
 
 #endif

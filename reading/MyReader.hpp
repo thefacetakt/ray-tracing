@@ -2,6 +2,7 @@
 #define RT_MY_READER
 
 #include "../figures/Triangle.hpp"
+#include "../figures/Quadrangle.hpp"
 #include "../figures/Figure.hpp"
 #include "../figures/Sphere.hpp"
 #include "../rendering/Image.hpp"
@@ -37,7 +38,7 @@ vector <IBody *> readMy(const char *filename) {
         return result;
     }
     FILE *in = fopen(filename, "r");
-    int T, S;
+    int T, S, Q;
     assert(fscanf(in, "%d", &T) == 1);
     for (int z = 0; z < T; ++z) {
         Triangle* current = new Triangle();
@@ -66,6 +67,28 @@ vector <IBody *> readMy(const char *filename) {
         current->O.scanfVector(in);
         assert(fscanf(in, "%lf", &current->R) == 1);
         result.push_back(new OneColorBody(scanfProperties(in), current));
+    }
+
+    assert(fscanf(in, "%d", &Q) == 1);
+    for (int z = 0; z < Q; ++z) {
+        Quadrangle* current = new Quadrangle();
+        for (int i = 0; i < Quadrangle::size(); ++i) {
+            (*current)[i].scanfVector(in);
+        }
+        char textureName[MAX_TEXTURE_NAME_LENGTH];
+        auto properties = scanfProperties(in);
+
+        assert(fscanf(in, "%s", textureName) == 1);
+
+        if (strcmp(textureName, NO_TEXTURE)) {
+            string name(textureName);
+            TexturedBody::addTexture(name);
+            result.push_back(new TexturedBody(current, name,
+                                              properties.reflection,
+                                              properties.refraction));
+        } else {
+            result.push_back(new OneColorBody(properties, current));
+        }
     }
     fclose(in);
     return result;

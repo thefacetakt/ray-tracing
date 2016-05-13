@@ -1,6 +1,7 @@
 #ifndef RT_FLOAT
 #define RT_FLOAT
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 typedef double myFloat;

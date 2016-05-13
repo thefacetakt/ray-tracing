@@ -49,7 +49,12 @@ public:
     }
 
     Image view(const Scene *scene) {
+#ifdef RT_DEBUG
+        ThreadPool pool(1);
+#endif
+#ifndef RT_DEBUG
         ThreadPool pool(thread::hardware_concurrency());
+#endif
         static int cnt = 0;
         Image result(width, height);
         for (int y = -height / 2; y < height / 2; ++y) {
