@@ -8,6 +8,7 @@
 #include "../rendering/Image.hpp"
 #include "../scene/OneColorBody.hpp"
 #include "../scene/TexturedBody.hpp"
+#include "../figures/VolumetricFigure.hpp"
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -89,6 +90,20 @@ vector <IBody *> readMy(const char *filename) {
         } else {
             result.push_back(new OneColorBody(properties, current));
         }
+    }
+    int SS;
+    assert(fscanf(in, "%d", &SS) == 1);
+    for (int i = 0; i < SS; ++i) {
+        Sphere *current = new Sphere();
+        current->O.scanfVector(in);
+        assert(fscanf(in, "%lf", &current->R) == 1);
+        Sphere *current1 = new Sphere();
+        current1->O.scanfVector(in);
+        assert(fscanf(in, "%lf", &current1->R) == 1);
+        result.push_back(new OneColorBody(scanfProperties(in),
+                         new IntersectionFigure(
+                             (VolumetricFigure *)(current1),
+                             (VolumetricFigure *)(current))));
     }
     fclose(in);
     return result;
